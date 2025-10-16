@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+node_modules/
+grain-ui/node_modules/
+runs/
+*.pt
+.env

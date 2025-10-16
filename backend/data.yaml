@@ -1,0 +1,4 @@
+path: ./data/mixes         # базовая папка
+train: images/train        # путь от path
+val: images/val
+names: [grain]             # один класс

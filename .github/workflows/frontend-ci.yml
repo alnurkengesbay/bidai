@@ -1,0 +1,39 @@
+name: Frontend — Build (Vite)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install
+        working-directory: ./grain-ui
+        run: |
+          npm ci
+      - name: Build
+        working-directory: ./grain-ui
+        run: |
+          npm run build
+
+  # Optional: deploy to Vercel (requires VERCEL_TOKEN secret and project/org ids)
+  deploy-to-vercel:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ secrets.VERCEL_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vercel CLI
+        run: npm i -g vercel
+      - name: Vercel Deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          cd grain-ui
+          vercel --prod --token $VERCEL_TOKEN
